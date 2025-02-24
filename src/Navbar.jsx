@@ -4,72 +4,98 @@ import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (
-        menuOpen &&
-        !event.target.closest(".mobile-menu") &&
-        !event.target.closest(".menu-button")
-      ) {
-        setMenuOpen(false);
-      }
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
     };
 
-    document.addEventListener("click", handleOutsideClick);
-    return () => document.removeEventListener("click", handleOutsideClick);
-  }, [menuOpen]);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav className="absolute top-4 right-4 md:top-8 md:right-8 z-[50] text-white text-lg font-medium tracking-wide pointer-events-auto">
-      {/* Menu Button - Works for All Screens */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation(); // Prevents immediate closure when clicking the button
-          setMenuOpen((prev) => !prev);
-        }}
-        className="relative z-50 menu-button"
-      >
-        {menuOpen ? <X size={28} /> : <Menu size={28} />}
-      </button>
+    <nav
+      className={`h-10 fixed top-10 left-0 w-full z-50 transition-all duration-500 ${
+        isScrolled ? "hidden" : "bg-black/40 backdrop-blur-lg shadow-md"
+      }`}
+    >
+      <div className="h-10 max-w-7xl h-inherit mx-auto px-6 py-4 flex items-center justify-between text-white">
+        {/* Logo */}
+        <img
+          src="./src/assets/etx-logo-grey.svg"
+          alt="Electrotech X Logo"
+          className="h-3 md:h-25 object-contain select-none"
+        />
 
-      {/* Navigation Drawer */}
+        {/* Desktop Menu */}
+        <div className="hidden md:flex space-x-8 text-lg">
+          {["Home", "About", "Services", "Projects", "Contact"].map(
+            (item, index) => (
+              <a
+                key={index}
+                href={`#${item.toLowerCase()}`}
+                className="hover:text-gray-300 transition-all duration-300"
+              >
+                {item}
+              </a>
+            )
+          )}
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMenuOpen((prev) => !prev)}
+          className="md:hidden focus:outline-none"
+        >
+          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </div>
+
+      {/* Mobile Navigation Drawer */}
       <AnimatePresence>
         {menuOpen && (
           <>
             {/* Background Overlay */}
             <motion.div
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-black/50 backdrop-blur-md z-40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMenuOpen(false)}
             />
 
-            {/* Menu */}
+            {/* Slide-In Menu */}
             <motion.div
               initial={{ x: "100%", opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "100%", opacity: 0 }}
-              className="fixed top-0 right-0 bg-black/90 backdrop-blur-md p-6 flex flex-col items-end space-y-4 text-white z-50 mobile-menu shadow-lg rounded-lg"
+              transition={{ duration: 0.3 }}
+              className="fixed top-0 right-0 w-4/5 sm:w-1/3 h-full bg-black/90 backdrop-blur-lg p-6 flex flex-col items-end text-white z-50 shadow-lg"
             >
               {/* Close Button */}
-              <button onClick={() => setMenuOpen(false)} className="text-white self-end mb-4">
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="text-white self-end mb-6"
+              >
                 <X size={32} />
               </button>
 
               {/* Menu Items */}
-              <div className="flex flex-col space-y-2 p-4">
-                {["Home", "About", "Services", "Projects", "Contact"].map((item, index) => (
-                  <a
-                    key={index}
-                    href={`#${item.toLowerCase()}`}
-                    className="text-lg hover:text-gray-300 transition-all duration-300 ease-in-out"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {item}
-                  </a>
-                ))}
+              <div className="flex flex-col space-y-6 w-full text-right">
+                {["Home", "About", "Services", "Projects", "Contact"].map(
+                  (item, index) => (
+                    <a
+                      key={index}
+                      href={`#${item.toLowerCase()}`}
+                      className="text-lg hover:text-gray-300 transition-all duration-300"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {item}
+                    </a>
+                  )
+                )}
                 <a
                   href="https://electrotechx.co/"
                   target="_blank"

@@ -20,6 +20,7 @@ export const FooterContainer = styled.div`
   align-items: center;
   max-width: 1000px;
   margin: 0 auto;
+  transparent: 0.3s ease-in-out;  
 `;
 
 export const Column = styled.div`
