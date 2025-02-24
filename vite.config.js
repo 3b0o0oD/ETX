@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  base: "/ETX/", // 👈 Fix the base path
+  base: process.env.GITHUB_ACTIONS_BASE || undefined,
   plugins: [tailwindcss(), react()],
   build: {
     outDir: "dist",
