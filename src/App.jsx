@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import Navbar from "../src/Navbar";
-import Footer from "../src/Footer";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 import { Button } from "@material-tailwind/react";
 
 export default function HomePage() {
@@ -31,7 +31,7 @@ export default function HomePage() {
           loop
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="../src/assets/video-bg.mp4" type="video/mp4" />
+          <source src="../public/video-bg.mp4" type="video/mp4" />
         </video>
 
         {/* Overlay */}
@@ -52,7 +52,7 @@ export default function HomePage() {
         {/* Logo
         <div className="absolute top-8 left-8 z-20">
           <img
-            src="./src/assets/etx-logo-grey.svg"
+            src="./public/etx-logo-grey.svg"
             alt="Electrotech X Logo"
             className="h-20 md:h-25 object-contain select-none"
           />
@@ -113,15 +113,15 @@ export default function HomePage() {
           {[
             {
               title: "AI-Powered Automation",
-              img: "/src/assets/Smart-Keypad.jpg",
+              img: "/src/public/Smart-Keypad.jpg",
             },
             {
               title: "Smart Home Integration",
-              img: "/src/assets/Smart-Keypad.jpg",
+              img: "/src/public/Smart-Keypad.jpg",
             },
             {
               title: "Industrial Control",
-              img: "/src/assets/Smart-Keypad.jpg",
+              img: "/src/public/Smart-Keypad.jpg",
             },
           ].map((feature, index) => (
             <motion.div
@@ -162,11 +162,11 @@ export default function HomePage() {
           {[
             {
               title: "AI-Driven Security",
-              img: "/src/assets/CCTV.jpg",
+              img: "/src/public/CCTV.jpg",
             },
             {
               title: "Energy Management",
-              img: "/src/assets/CCTV.jpg",
+              img: "/src/public/CCTV.jpg",
             },
           ].map((service, index) => (
             <motion.div
