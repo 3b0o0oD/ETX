@@ -4,6 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  base: "/ETX/",
+  base: "/ETX",
   plugins: [tailwindcss(), react()],
 });
