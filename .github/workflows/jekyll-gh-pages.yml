@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+- name: Set up Git user
+  run:
+
+    git config --global user.email "white.angel.3j@gmail.com"
+    git config --global user.name "3b0o0oD"
 
 jobs:
   deploy:
