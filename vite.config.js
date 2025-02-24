@@ -1,13 +1,9 @@
-import { defineConfig } from 'vite'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from "vite";
+import tailwindcss from "@tailwindcss/vite";
 
-import react from '@vitejs/plugin-react'
+import react from "@vitejs/plugin-react";
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    tailwindcss(),
-    react(),
-  ],
-  base: '/ETX/',
-})
+  base: "https://3b0o0od.github.io/ETX/",
+  plugins: [tailwindcss(), react()],
+});
