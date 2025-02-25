@@ -24,7 +24,7 @@ export default function Navbar() {
       <div className="h-10 max-w-7xl h-inherit mx-auto px-6 py-4 flex items-center justify-between text-white">
         {/* Logo */}
         <img
-          src="./public/etx-logo-grey.svg"
+          src="./etx-logo-grey.svg"
           alt="Electrotech X Logo"
           className="h-3 md:h-25 object-contain select-none"
         />
