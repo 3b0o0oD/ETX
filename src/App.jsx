@@ -191,12 +191,12 @@ export default function HomePage() {
           </motion.p>
           <div className="flex w-max gap-4">
             <a href="#features">
-              <Button className="rounded-full bg-gradient-to-b from-amber-200 via-amber-200 to-amber-300 text-black shadow-[0_4px_15px_rgba(255,215,0,0.6)] hover:brightness-125 transition-all duration-300 ease-in-out transform hover:scale-105">
+              <Button className=" bg-gradient-to-b from-amber-200 via-amber-200 to-amber-300 text-black shadow-[0_4px_15px_rgba(255,215,0,0.6)] hover:brightness-125 transition-all duration-300 ease-in-out transform hover:scale-105">
                 Read More
               </Button>
             </a>
             <a href="https://electrotechx.co">
-            <Button variant="outlined" className="rounded-full bg-gradient-to-b from-amber-200 via-amber-200 to-amber-300 text-black shadow-[0_4px_15px_rgba(255,215,0,0.6)] hover:brightness-125 transition-all duration-300 ease-in-out transform hover:scale-105">
+            <Button className=" bg-gradient-to-b from-amber-200 via-amber-200 to-amber-300 text-black shadow-[0_4px_15px_rgba(255,215,0,0.6)] hover:brightness-125 transition-all duration-300 ease-in-out transform hover:scale-105">
                 Visit Shop
               </Button>
             </a>

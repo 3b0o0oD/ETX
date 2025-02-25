@@ -18,8 +18,8 @@ export default function Navbar() {
   return (
     <nav
       style={{
-        boxShadow: "0 4px 15px rgba(255, 215, 0, 0.4)", // Softer golden glow
-        backdropFilter: "blur(1px)", // Glass effect for a premium look
+        boxShadow: "0 5px 15px rgba(255, 215, 0, 0.4)", // Softer golden glow
+        backdropFilter: "blur(2px)", // Glass effect for a premium look
         borderBottom: "1px solid rgba(255, 215, 0, 0.3)", // Subtle gold border
       }}
       className={`h-10 fixed top-10 left-0 w-full z-50 transition-all duration-500 ${
@@ -33,7 +33,7 @@ export default function Navbar() {
         <img
           src="./etx-logo-grey.svg"
           alt="Electrotech X Logo"
-          className="h-35 sm:h-12 md:h-16 lg:h-35 object-contain select-none transition-all duration-300"
+          className="h-35 sm:h-12 md:h-35 lg:h-35 object-contain select-none transition-all duration-300"
         />
 
         {/* Desktop Menu */}
@@ -54,7 +54,7 @@ export default function Navbar() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMenuOpen((prev) => !prev)}
-          className="md:hidden focus:outline-none text-yellow-400"
+          className="md:hidden focus:outline-none text-black hover:text-gray-400"
         >
           {menuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
@@ -66,7 +66,7 @@ export default function Navbar() {
           <>
             {/* Background Overlay */}
             <motion.div
-              className="fixed inset-0 bg-black/50 backdrop-blur-md z-40"
+              className="fixed inset-0 bg-black/95 z-100"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -79,7 +79,7 @@ export default function Navbar() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "100%", opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed top-0 right-0 w-4/5 sm:w-1/3 h-full bg-black/90 backdrop-blur-lg p-6 flex flex-col items-end text-white z-50 shadow-lg"
+              className="fixed top-0 right-0 w-4/5 sm:w-1/3 h-full bg-black/95 backdrop-blur-lg p-6 flex flex-col items-end text-white z-100 shadow-lg"
             >
               {/* Close Button */}
               <button
@@ -96,7 +96,7 @@ export default function Navbar() {
                     <a
                       key={index}
                       href={`#${item.toLowerCase()}`}
-                      className="text-lg bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-300 hover:brightness-125 transition-all duration-300"
+                      className="text-lg bg-clip-text text-transparent bg-gradient-to-r from-[#FFD700] via-[#DAA520] to-[#B8860B] drop-shadow-md hover:brightness-125 transition-all duration-300"
                       onClick={() => setMenuOpen(false)}
                     >
                       {item}
