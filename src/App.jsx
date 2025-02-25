@@ -31,7 +31,7 @@ export default function HomePage() {
           loop
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="../public/video-bg.mp4" type="video/mp4" />
+          <source src="./video-bg.mp4" type="video/mp4" />
         </video>
 
         {/* Overlay */}
@@ -113,15 +113,15 @@ export default function HomePage() {
           {[
             {
               title: "AI-Powered Automation",
-              img: "/src/public/Smart-Keypad.jpg",
+              img: "./Smart-Keypad.jpg",
             },
             {
               title: "Smart Home Integration",
-              img: "/src/public/Smart-Keypad.jpg",
+              img: "./Smart-Keypad.jpg",
             },
             {
               title: "Industrial Control",
-              img: "/src/public/Smart-Keypad.jpg",
+              img: "./Smart-Keypad.jpg",
             },
           ].map((feature, index) => (
             <motion.div
@@ -162,11 +162,11 @@ export default function HomePage() {
           {[
             {
               title: "AI-Driven Security",
-              img: "/src/public/CCTV.jpg",
+              img: "./CCTV.jpg",
             },
             {
               title: "Energy Management",
-              img: "/src/public/CCTV.jpg",
+              img: "./CCTV.jpg",
             },
           ].map((service, index) => (
             <motion.div
