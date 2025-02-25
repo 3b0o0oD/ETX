@@ -4,12 +4,12 @@ name: Deploy static content to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ['main']
+    branches: ["main"]
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Allows manual trigger from Actions tab
   workflow_dispatch:
 
-# Sets the GITHUB_TOKEN permissions to allow deployment to GitHub Pages
+# Sets GITHUB_TOKEN permissions to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
@@ -17,7 +17,7 @@ permissions:
 
 # Allow one concurrent deployment
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
@@ -28,24 +28,45 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Set up Node
+
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-      - name: Install dependencies
+          cache: "npm"
+
+      - name: Install Dependencies
         run: npm ci
-      - name: Build
+
+      - name: Build Project
         run: npm run build
-      - name: Setup Pages
+
+      - name: Ensure dist Directory Exists
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "⚠️ Build failed: dist directory is missing!"
+            exit 1
+          fi
+
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v4
-      - name: Upload artifact
+
+      - name: Remove Old Artifacts (if any)
+        run: rm -rf ./artifact || true
+
+      - name: Upload Artifact to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload dist folder
-          path: './dist'
+          path: "./dist"
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Clear GitHub Pages Cache (Fix Blank Page Issue)
+        run: curl -X PURGE "https://3b0o0od.github.io/ETX/"
+
+      - name: Verify Deployment Success
+        run: 'echo "✅ Deployment completed! View it at: ${{ steps.deployment.outputs.page_url }}"'
