@@ -17,16 +17,23 @@ export default function Navbar() {
 
   return (
     <nav
+      style={{
+        boxShadow: "0 4px 15px rgba(255, 215, 0, 0.4)", // Softer golden glow
+        backdropFilter: "blur(1px)", // Glass effect for a premium look
+        borderBottom: "1px solid rgba(255, 215, 0, 0.3)", // Subtle gold border
+      }}
       className={`h-10 fixed top-10 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled ? "hidden" : "bg-black/40 backdrop-blur-lg shadow-md"
+        isScrolled
+          ? "hidden"
+          : "bg-gradient-to-r from-[#f6d66b85] via-[#fac53f85] to-[#ffee85] backdrop-blur-lg shadow-[0_4px_15px_rgba(255,215,0,0.4)]"
       }`}
     >
-      <div className="h-10 max-w-7xl h-inherit mx-auto px-6 py-4 flex items-center justify-between text-white">
+      <div className="h-10 max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <img
           src="./etx-logo-grey.svg"
           alt="Electrotech X Logo"
-          className="h-3 md:h-25 object-contain select-none"
+          className="h-35 sm:h-12 md:h-16 lg:h-35 object-contain select-none transition-all duration-300"
         />
 
         {/* Desktop Menu */}
@@ -36,7 +43,7 @@ export default function Navbar() {
               <a
                 key={index}
                 href={`#${item.toLowerCase()}`}
-                className="hover:text-gray-300 transition-all duration-300"
+                className="bg-clip-text brightness-50  bg-gradient-to-t from-amber-100 via-amber-200 to-amber-300 hover:brightness-125 transition-all duration-300"
               >
                 {item}
               </a>
@@ -47,7 +54,7 @@ export default function Navbar() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMenuOpen((prev) => !prev)}
-          className="md:hidden focus:outline-none"
+          className="md:hidden focus:outline-none text-yellow-400"
         >
           {menuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
@@ -84,27 +91,18 @@ export default function Navbar() {
 
               {/* Menu Items */}
               <div className="flex flex-col space-y-6 w-full text-right">
-                {["Home", "About", "Services", "Projects", "Contact"].map(
+                {["Home", "About", "Services", "Projects", "Contact US"].map(
                   (item, index) => (
                     <a
                       key={index}
                       href={`#${item.toLowerCase()}`}
-                      className="text-lg hover:text-gray-300 transition-all duration-300"
+                      className="text-lg bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-300 hover:brightness-125 transition-all duration-300"
                       onClick={() => setMenuOpen(false)}
                     >
                       {item}
                     </a>
                   )
                 )}
-                <a
-                  href="https://electrotechx.co/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-lg text-blue-400 hover:text-blue-300 transition-all duration-300"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Visit Shop
-                </a>
               </div>
             </motion.div>
           </>

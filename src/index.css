@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap");
 @import "tailwindcss";
 
 :root {
-  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Poppins", system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.6;
   font-weight: 400;
 
@@ -14,16 +14,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 400;
-  color: #e0e0e0;
-  text-decoration: none;
-  transition: color 0.3s ease-in-out;
-}
-a:hover {
-  color: #ffffff;
 }
 
 body {
@@ -54,11 +44,5 @@ h1 {
   :root {
     color: #213547;
     background: #ffffff;
-  }
-  a {
-    color: #b5b5b5;
-  }
-  a:hover {
-    color: #555;
   }
 }
