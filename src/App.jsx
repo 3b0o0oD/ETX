@@ -11,6 +11,7 @@ import Contact from "@/Contact.jsx";
 import { useTranslation } from "react-i18next";
 import Lenis from "@studio-freight/lenis";
 import { ArrowDown } from "lucide-react";
+import i18n from "i18next";
 
 export default function HomePage() {
   const { t } = useTranslation();
