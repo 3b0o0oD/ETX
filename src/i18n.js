@@ -18,3 +18,4 @@ i18n
       caches: ["localStorage", "cookie"], // Store language preference
     },
   });
+export default i18n;
