@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Footer from "@/Footer";
 import Navbar from "@/Navbar";
 import ServicesCard from "@/ServicesCard.jsx";
-import FeatureCard from "@/FeatureCard.jsx";
+import FeatureCard from "@/Featurecard.jsx";
 import HeroSection from "@/HeroSection.jsx";
 import Contact from "@/Contact.jsx";
 import { useTranslation } from "react-i18next";
