@@ -1,21 +1,26 @@
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import Backend from "i18next-http-backend";
+import LanguageDetector from "i18next-browser-languagedetector";
+
 i18n
   .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    lng: "en", // Force default language to English
-    fallbackLng: "en", // Ensure fallback is English
+    fallbackLng: "en", // ✅ English as default language
     debug: false,
     interpolation: {
-      escapeValue: false,
+      escapeValue: false, // Not needed for React
     },
     backend: {
-      loadPath: "/locales/{{lng}}/{{ns}}.json",
+      loadPath: "/locales/{{lng}}/{{ns}}.json", // ✅ Ensure this path is correct
     },
     detection: {
       order: ["path", "navigator"],
       lookupFromPathIndex: 0,
-      caches: ["localStorage", "cookie"], // Store language preference
     },
   });
+
+// ✅ Correctly export i18n
 export default i18n;
