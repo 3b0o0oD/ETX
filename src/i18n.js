@@ -14,7 +14,7 @@ i18n
       escapeValue: false, // Not needed for React
     },
     backend: {
-      loadPath: "/src/locales/{{lng}}/{{ns}}.json", // ✅ Ensure this path is correct
+      loadPath: "/ETX/locales/{{lng}}/{{ns}}.json", // ✅ Ensure this path is correct
     },
     detection: {
       order: ["localStorage", "cookie", "navigator", "htmlTag", "path"],
