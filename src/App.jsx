@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import Lenis from "@studio-freight/lenis";
 import { ArrowDown } from "lucide-react";
 
-export default function HomePage() {  
+export default function HomePage() {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
 
