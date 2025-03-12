@@ -8,7 +8,7 @@ import FeatureCard from "./components/FeatureCard";
 import HeroSection from "./components/HeroSection";
 import Contact from "./components/Contact";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Lenis from "@studio-freight/lenis";
+import Lenis from "lenis"; // Updated import statement
 import { ArrowDown } from "lucide-react";
 
 export default function HomePage() {
