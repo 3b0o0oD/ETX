@@ -11,6 +11,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Lenis from "lenis"; // Updated import statement
 import { ArrowDown } from "lucide-react";
 
+
 export default function HomePage() {
   const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(true);
