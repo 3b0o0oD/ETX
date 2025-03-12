@@ -6,7 +6,7 @@ import Footer from "@/Footer";
 import Navbar from "@/Navbar";
 import ServicesCard from "@/ServicesCard.jsx";
 import FeatureCard from "@/Featurecard.jsx";
-import HeroSection from "@/HeroSection.jsx";
+import HeroSection from "@/Herosection.jsx";
 import Contact from "@/Contact.jsx";
 import { useTranslation } from "react-i18next";
 import Lenis from "@studio-freight/lenis";
