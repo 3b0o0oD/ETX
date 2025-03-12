@@ -1,58 +1,60 @@
 import React, { useEffect, useState } from "react";
-import { I18nextProvider } from "react-i18next";
-import i18n from "@/i18n";
-import Backend from "i18next-http-backend";
-import LanguageDetector from "i18next-browser-languagedetector";
+import { I18nextProvider, useTranslation } from "react-i18next";
+import i18n from "./i18n";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import ServicesCard from "./components/ServicesCard";
+import FeatureCard from "./components/FeatureCard";
+import HeroSection from "./components/HeroSection";
+import Contact from "./components/Contact";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Footer from "@/Footer";
-import Navbar from "@/Navbar";
-import ServicesCard from "@/ServicesCard.jsx";
-import FeatureCard from "@/Featurecard.jsx";
-import HeroSection from "@/Herosection.jsx";
-import Contact from "@/Contact.jsx";
-import { useTranslation } from "react-i18next";
 import Lenis from "@studio-freight/lenis";
 import { ArrowDown } from "lucide-react";
 
 export default function HomePage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(true);
-
-  const features = [
-    {
-      title: t("aiPoweredAutomation"),
-      img: "./Smart-Keypad.jpg",
-      description: t("aiAutomationDescription"),
-      moreContent: t("aiAutomationMore"),
-    },
-    {
-      title: t("smartHomeIntegration"),
-      img: "./Smart-Keypad.jpg",
-      description: t("smartHomeDescription"),
-    },
-    {
-      title: t("industrialControl"),
-      img: "./Smart-Keypad.jpg",
-      description: t("industrialDescription"),
-    },
-  ];
-
-  const services = [
-    {
-      title: t("aiDrivenSecurity"),
-      img: "./CCTV.jpg",
-      description: t("aiSecurityDescription"),
-      moreContent: t("aiSecurityMore"),
-    },
-    {
-      title: t("energyManagement"),
-      img: "./CCTV.jpg",
-      description: t("energyDescription"),
-    },
-  ];
+  const [features, setFeatures] = useState([]);
+  const [services, setServices] = useState([]);
 
   const { scrollYProgress } = useScroll();
   const translateY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+
+  // Update features & services when language changes
+  useEffect(() => {
+    setFeatures([
+      {
+        title: t("aiPoweredAutomation"),
+        img: "./Smart-Keypad.jpg",
+        description: t("aiAutomationDescription"),
+        moreContent: t("aiAutomationMore"),
+      },
+      {
+        title: t("smartHomeIntegration"),
+        img: "./Smart-Keypad.jpg",
+        description: t("smartHomeDescription"),
+      },
+      {
+        title: t("industrialControl"),
+        img: "./Smart-Keypad.jpg",
+        description: t("industrialDescription"),
+      },
+    ]);
+
+    setServices([
+      {
+        title: t("aiDrivenSecurity"),
+        img: "./CCTV.jpg",
+        description: t("aiSecurityDescription"),
+        moreContent: t("aiSecurityMore"),
+      },
+      {
+        title: t("energyManagement"),
+        img: "./CCTV.jpg",
+        description: t("energyDescription"),
+      },
+    ]);
+  }, [i18n.language]);
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -66,11 +68,7 @@ export default function HomePage() {
 
     setLoading(false);
 
-    return () => {
-      if (lenis) {
-        lenis.destroy();
-      }
-    };
+    return () => lenis.destroy();
   }, []);
 
   if (loading) {
@@ -104,6 +102,8 @@ export default function HomePage() {
               <ArrowDown className="w-8 h-8" />
             </a>
           </div>
+
+          {/* Features Section */}
           <motion.section
             id="features"
             className="relative py-20 px-8 md:px-16 text-white text-center"
@@ -126,10 +126,7 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   viewport={{ once: true }}
-                  whileHover={{
-                    scale: 1.05,
-                    backgroundColor: "#333",
-                  }}
+                  whileHover={{ scale: 1.05, backgroundColor: "#333" }}
                   className="p-6 bg-gray-800 rounded-lg shadow-md transition-all duration-300"
                 >
                   <FeatureCard {...feature} />
@@ -137,6 +134,8 @@ export default function HomePage() {
               ))}
             </div>
           </motion.section>
+
+          {/* Services Section */}
           <motion.section
             id="services"
             className="relative py-20 px-8 md:px-16 text-white text-center"
@@ -159,10 +158,7 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, ease: "easeOut" }}
                   viewport={{ once: true }}
-                  whileHover={{
-                    scale: 1.05,
-                    backgroundColor: "#333",
-                  }}
+                  whileHover={{ scale: 1.05, backgroundColor: "#333" }}
                   className="p-6 bg-gray-800 rounded-lg shadow-md transition-all duration-300"
                 >
                   <ServicesCard {...service} />
@@ -170,6 +166,8 @@ export default function HomePage() {
               ))}
             </div>
           </motion.section>
+
+          {/* Contact Section */}
           <motion.section
             id="contactUs"
             className="z-10 relative py-20 px-8 md:px-16 text-white text-center"

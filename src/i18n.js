@@ -14,11 +14,11 @@ i18n
       escapeValue: false, // Not needed for React
     },
     backend: {
-      loadPath: "/{{lng}}/{{ns}}.json", // ✅ Ensure this path is correct
+      loadPath: "/locales/{{lng}}/{{ns}}.json", // ✅ Ensure this path is correct
     },
     detection: {
-      order: ["path", "navigator"],
-      lookupFromPathIndex: 0,
+      order: ["localStorage", "cookie", "navigator", "htmlTag", "path"],
+      caches: ["localStorage", "cookie"],
     },
   });
 

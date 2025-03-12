@@ -13,6 +13,16 @@ export default function Navbar() {
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const languageDropdownRef = useRef(null);
 
+  const [currentLang, setCurrentLang] = useState(i18n.language || "en");
+
+  // Ensure language is set correctly on mount
+  useEffect(() => {
+    const storedLang = localStorage.getItem("i18nextLng") || "en";
+    i18n.changeLanguage(storedLang).then(() => {
+      setCurrentLang(storedLang);
+    });
+  }, [i18n]);
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -51,8 +61,11 @@ export default function Navbar() {
   }, [languageDropdownRef]);
 
   const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-    setIsLanguageDropdownOpen(false);
+    i18n.changeLanguage(lng).then(() => {
+      localStorage.setItem("i18nextLng", lng);
+      setCurrentLang(lng);
+      setIsLanguageDropdownOpen(false);
+    });
   };
 
   return (
@@ -92,7 +105,7 @@ export default function Navbar() {
             className="flex items-center gap-1"
             aria-label="Toggle Language Dropdown"
           >
-            {i18n.language === "en" ? "English" : "العربية"}
+            {currentLang === "en" ? "English" : "العربية"}
             <ChevronDown />
           </button>
           <AnimatePresence>
@@ -107,7 +120,7 @@ export default function Navbar() {
                 <button
                   onClick={() => changeLanguage("en")}
                   className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${
-                    i18n.language === "en" ? "bg-gray-100" : ""
+                    currentLang === "en" ? "bg-gray-100" : ""
                   }`}
                 >
                   English
@@ -115,7 +128,7 @@ export default function Navbar() {
                 <button
                   onClick={() => changeLanguage("ar")}
                   className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${
-                    i18n.language === "ar" ? "bg-gray-100" : ""
+                    currentLang === "ar" ? "bg-gray-100" : ""
                   }`}
                 >
                   العربية
