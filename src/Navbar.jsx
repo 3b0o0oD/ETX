@@ -1,114 +1,161 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import debounce from "lodash/debounce";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [scrollDirection, setScrollDirection] = useState("up");
+  const { t, i18n } = useTranslation();
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const languageDropdownRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      setIsScrolled(currentScrollY > 50 && currentScrollY > lastScrollY);
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsScrolled(true);
+        setScrollDirection("down");
+      } else {
+        setIsScrolled(false);
+        setScrollDirection("up");
+      }
       setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const debouncedScroll = debounce(handleScroll, 100);
+
+    window.addEventListener("scroll", debouncedScroll);
+    return () => {
+      window.removeEventListener("scroll", debouncedScroll);
+    };
   }, [lastScrollY]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        languageDropdownRef.current &&
+        !languageDropdownRef.current.contains(event.target)
+      ) {
+        setIsLanguageDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [languageDropdownRef]);
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    setIsLanguageDropdownOpen(false);
+  };
 
   return (
     <nav
-      style={{
-        boxShadow: "0 5px 15px rgba(255, 215, 0, 0.4)", // Softer golden glow
-        backdropFilter: "blur(2px)", // Glass effect for a premium look
-        borderBottom: "1px solid rgba(255, 215, 0, 0.3)", // Subtle gold border
-      }}
       className={`fixed top-10 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled
-          ? "-translate-y-full hidden" // Hides when scrolling down
-          : "translate-y-0 bg-gradient-to-r from-[#f6d66b85] via-[#fac53f85] to-[#ffee85] backdrop-blur-lg shadow-[0_4px_15px_rgba(255,215,0,0.4)]"
+        isScrolled && scrollDirection === "down"
+          ? "-translate-y-full hidden"
+          : `translate-y-0 ${
+              isScrolled
+                ? "bg-black/80 backdrop-blur-lg shadow-[0_4px_15px_rgba(0,0,0,0.4)]"
+                : "bg-gradient-to-r from-[#f6d66b85] via-[#fac53f85] to-[#ffee85] backdrop-blur-lg shadow-[0_4px_15px_rgba(255,215,0,0.4)]"
+            }`
       }`}
     >
       <div className="h-10 max-w-7xl mx-auto px-6 flex items-center justify-between">
-        {/* Logo */}
         <img
           src="./etx-logo-grey.svg"
           alt="Electrotech X Logo"
-          className="h-36 object-contain select-none transition-all duration-300"
+          className="h-32 object-contain select-none transition-all duration-300"
         />
-
-        {/* Desktop Menu */}
         <div className="hidden md:flex space-x-8 text-lg">
-          {["Home", "About", "Services", "Features", "Contact"].map(
+          {["home", "about", "services", "features", "contactUs"].map(
             (item, index) => (
               <a
                 key={index}
-                href={`#${item.toLowerCase()}`}
-                className="bg-clip-text text-[#000a49]  hover:brightness-125 transition-all duration-300"
+                href={`#${item}`}
+                className="bg-clip-text text-[#000a49] relative hover:underline hover:underline-offset-8 transition-all duration-300"
               >
-                {item}
+                {t(item)}
               </a>
             )
           )}
         </div>
-
-        {/* Mobile Menu Button */}
+        <div ref={languageDropdownRef} className="relative">
+          <button
+            onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+            className="flex items-center gap-1"
+            aria-label="Toggle Language Dropdown"
+          >
+            {i18n.language === "en" ? "English" : "العربية"}
+            <ChevronDown />
+          </button>
+          <AnimatePresence>
+            {isLanguageDropdownOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                transition={{ duration: 0.2 }}
+                className="absolute top-full right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden"
+              >
+                <button
+                  onClick={() => changeLanguage("en")}
+                  className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${
+                    i18n.language === "en" ? "bg-gray-100" : ""
+                  }`}
+                >
+                  English
+                </button>
+                <button
+                  onClick={() => changeLanguage("ar")}
+                  className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${
+                    i18n.language === "ar" ? "bg-gray-100" : ""
+                  }`}
+                >
+                  العربية
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
         <button
           onClick={() => setMenuOpen((prev) => !prev)}
           className="md:hidden focus:outline-none text-black hover:text-gray-400"
+          aria-label={menuOpen ? "Close Menu" : "Open Menu"}
         >
           {menuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
-
-      {/* Mobile Navigation Drawer */}
       <AnimatePresence>
         {menuOpen && (
-          <>
-            {/* Background Overlay */}
-            <motion.div
-              className="fixed inset-0 bg-black/95 z-50"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setMenuOpen(false)}
-            />
-
-            {/* Slide-In Menu */}
-            <motion.div
-              initial={{ x: "100%", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: "100%", opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed top-0 right-0 w-4/5 sm:w-1/3 h-full bg-black/95 backdrop-blur-lg p-6 flex flex-col items-end text-white z-50 shadow-lg"
-            >
-              {/* Close Button */}
-              <button
-                onClick={() => setMenuOpen(false)}
-                className="text-white self-end mb-6"
-              >
-                <X size={32} />
-              </button>
-
-              {/* Menu Items */}
-              <div className="flex flex-col space-y-6 w-full text-right">
-                {["Home", "About", "Services", "Features", "Contact"].map(
-                  (item, index) => (
-                    <a
-                      key={index}
-                      href={`#${item.toLowerCase()}`}
-                      className="text-lg bg-clip-text text-transparent bg-gradient-to-r from-[#FFD700] via-[#DAA520] to-[#B8860B] drop-shadow-md hover:brightness-125 transition-all duration-300"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {item}
-                    </a>
-                  )
-                )}
-              </div>
-            </motion.div>
-          </>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-black/80 backdrop-blur-lg shadow-lg absolute top-0 left-0 w-full p-6"
+          >
+            <div className="flex flex-col space-y-4">
+              {["home", "about", "services", "features", "contactUs"].map(
+                (item, index) => (
+                  <a
+                    key={index}
+                    href={`#${item}`}
+                    className="text-white text-lg hover:underline"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {t(item)}
+                  </a>
+                )
+              )}
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </nav>
