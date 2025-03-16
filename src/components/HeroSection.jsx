@@ -33,7 +33,7 @@ const HeroSection = () => {
         animate={{ opacity: isLoaded ? 1 : 0, y: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
       >
-        <h1 className="text-amber-300 text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 drop-shadow-lg select-none">
+        <h1 className="text-[#fac53fb8] text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 drop-shadow-lg select-none">
           {t("welcome")}
         </h1>
         <motion.p
@@ -47,7 +47,7 @@ const HeroSection = () => {
         <div className="flex flex-col sm:flex-row w-max gap-4">
           <a
             href="#features"
-            className="bg-amber-300 text-black py-4 px-8 rounded-full font-semibold hover:bg-amber-400 transition-colors duration-300 w-full sm:w-auto"
+            className="bg-[#fac53f85] text-black py-4 px-8 rounded-full font-semibold hover:bg-amber-400 transition-colors duration-300 w-full sm:w-auto"
             aria-label={t("readMore")}
           >
             {t("readMore")}

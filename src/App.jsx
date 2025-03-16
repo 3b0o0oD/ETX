@@ -11,7 +11,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Lenis from "lenis"; // Updated import statement
 import { ArrowDown } from "lucide-react";
 
-
 export default function HomePage() {
   const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(true);
@@ -93,7 +92,7 @@ export default function HomePage() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
         >
-          <source src="./bg.mp4" type="video/mp4" />
+          <source src="./g.mp4" type="video/mp4" />
         </motion.video>
         <Navbar />
         <main>
@@ -103,8 +102,7 @@ export default function HomePage() {
               <ArrowDown className="w-8 h-8" />
             </a>
           </div>
-
-          {/* Features Section */}
+          /* Features Section */
           <motion.section
             id="features"
             className="relative py-20 px-8 md:px-16 text-white text-center"
@@ -135,7 +133,6 @@ export default function HomePage() {
               ))}
             </div>
           </motion.section>
-
           {/* Services Section */}
           <motion.section
             id="services"
@@ -167,11 +164,10 @@ export default function HomePage() {
               ))}
             </div>
           </motion.section>
-
           {/* Contact Section */}
           <motion.section
             id="contactUs"
-            className="z-10 relative py-20 px-8 md:px-16 text-white text-center"
+            className="z-10 relative flex flex-col items-center justify-center py-20 px-8 md:px-16 text-white text-center"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}

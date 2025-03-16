@@ -70,13 +70,13 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-10 left-0 w-full z-50 transition-all duration-500 ${
+      className={`fixed text-white top-10 left-0 w-full z-50 transition-all duration-500 ${
         isScrolled && scrollDirection === "down"
           ? "-translate-y-full hidden"
           : `translate-y-0 ${
               isScrolled
                 ? "bg-black/80 backdrop-blur-lg shadow-[0_4px_15px_rgba(0,0,0,0.4)]"
-                : "bg-gradient-to-r from-[#f6d66b85] via-[#fac53f85] to-[#ffee85] backdrop-blur-lg shadow-[0_4px_15px_rgba(255,215,0,0.4)]"
+                : "bg-gradient-to-r from-[#f6d66b85] via-[#fac53f85] to-[#ffee85] backdrop-blur-lg shadow-[0_4px_15px_rgba(255,215,0,0.4)] "
             }`
       }`}
     >
@@ -92,7 +92,7 @@ export default function Navbar() {
               <a
                 key={index}
                 href={`#${item}`}
-                className="bg-clip-text text-[#000a49] relative hover:underline hover:underline-offset-8 transition-all duration-300"
+                className="bg-clip-text text-white relative hover:underline hover:underline-offset-8 transition-all duration-300"
               >
                 {t(item)}
               </a>
@@ -115,20 +115,20 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -5 }}
                 transition={{ duration: 0.2 }}
-                className="absolute top-full right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden"
+                className="absolute top-full right-0 mt-2 bg-gray-500 rounded-md shadow-lg overflow-hidden"
               >
                 <button
                   onClick={() => changeLanguage("en")}
-                  className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${
-                    currentLang === "en" ? "bg-gray-100" : ""
+                  className={`block w-full text-left px-4 py-2 hover:bg-gray-100 text-black ${
+                    currentLang === "en" ? "bg-black text-gray-100" : ""
                   }`}
                 >
                   English
                 </button>
                 <button
                   onClick={() => changeLanguage("ar")}
-                  className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${
-                    currentLang === "ar" ? "bg-gray-100" : ""
+                  className={`block w-full text-left px-4 py-2 hover:bg-gray-100 text-black ${
+                    currentLang === "ar" ? "bg-black text-grey-100" : ""
                   }`}
                 >
                   العربية
