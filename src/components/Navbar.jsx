@@ -119,16 +119,20 @@ export default function Navbar() {
               >
                 <button
                   onClick={() => changeLanguage("en")}
-                  className={`block w-full text-left px-4 py-2 hover:bg-gray-100 text-black ${
-                    currentLang === "en" ? "bg-black text-gray-100" : ""
+                  className={`block w-full text-left px-4 py-2 transition-all duration-200 ${
+                    currentLang === "en"
+                      ? "bg-blue-600 text-white font-bold"
+                      : "bg-gray-500 text-white hover:bg-gray-700"
                   }`}
                 >
                   English
                 </button>
                 <button
                   onClick={() => changeLanguage("ar")}
-                  className={`block w-full text-left px-4 py-2 hover:bg-gray-100 text-black ${
-                    currentLang === "ar" ? "bg-black text-grey-100" : ""
+                  className={`block w-full text-left px-4 py-2 transition-all duration-200 ${
+                    currentLang === "ar"
+                      ? "bg-blue-600 text-white font-bold"
+                      : "bg-gray-500 text-white hover:bg-gray-700"
                   }`}
                 >
                   العربية
