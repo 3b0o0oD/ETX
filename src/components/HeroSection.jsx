@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 const HeroSection = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showScrollDown, setShowScrollDown] = useState(true);
   const { t } = useTranslation();
   const videoRef = useRef(null);
 
@@ -14,6 +15,17 @@ const HeroSection = () => {
         console.error("Video playback failed:", error);
       });
     }
+
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setShowScrollDown(false);
+      } else {
+        setShowScrollDown(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -45,24 +57,50 @@ const HeroSection = () => {
         >
           {t("revolutionizing")}
         </motion.p>
-        <div className="flex flex-col sm:flex-row w-max gap-4">
-          <a
-            href="#features"
-            className="bg-[#fac53f85] text-black py-4 px-8 rounded-full font-semibold hover:bg-amber-400 transition-colors duration-300 w-full sm:w-auto"
-            aria-label={t("readMore")}
+
+        {/* Scroll Down Animation */}
+        {showScrollDown && (
+          <motion.div
+            className="absolute bottom-30 left-1/2 transform -translate-x-1/2 z-20"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
           >
-            {t("readMore")}
-          </a>
-          {/* <a
-            href="https://electrotechx.co"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-transparent border border-amber-300 text-amber-300 py-4 px-8 rounded-full font-semibold hover:bg-amber-800 hover:border-amber-400 transition-colors duration-300 w-full sm:w-auto"
-            aria-label={t("visitShop")}
-          >
-            {t("visitShop")}
-          </a> */}
-        </div>
+            <a href="#features" aria-label="Scroll Down">
+              <div className="flex flex-col items-center">
+                <motion.div
+                  className="w-8 h-8 flex items-center justify-center"
+                  animate={{
+                    y: [0, 30, 0], // Bounce effect
+                    scale: [1, 1.5, 1], // Pulsing effect
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  {/* Downward arrow */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-6 h-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </motion.div>
+              </div>
+            </a>
+          </motion.div>
+        )}
       </motion.div>
     </motion.div>
   );
