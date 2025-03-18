@@ -12,7 +12,6 @@ export default function Navbar() {
   const { t, i18n } = useTranslation();
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const languageDropdownRef = useRef(null);
-  const [activeSection, setActiveSection] = useState("home"); // State to track the active section
 
   const [currentLang, setCurrentLang] = useState(i18n.language || "en");
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -46,18 +45,6 @@ export default function Navbar() {
     } else {
       setIsNavbarVisible(false);
     }
-
-    // Update active section based on scroll position
-    navItems.forEach((item) => {
-      const section = document.getElementById(item);
-      if (section) {
-        const offsetTop = section.offsetTop - 150; // Adjust offset as needed
-        const offsetBottom = offsetTop + section.offsetHeight;
-        if (currentScrollY >= offsetTop && currentScrollY < offsetBottom) {
-          setActiveSection(item);
-        }
-      }
-    });
   }, 100);
 
   useEffect(() => {
@@ -92,7 +79,9 @@ export default function Navbar() {
   return (
     <div onMouseDown={handleBodyClick}>
       <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-transform duration-300 ${
+        className={`fixed ${
+          isScrolled ? "top-0" : "top-10"
+        } left-0 w-full z-50 transition-transform duration-300 ${
           !isNavbarVisible
             ? "-translate-y-full"
             : isScrolled && scrollDirection === "down"
@@ -101,7 +90,7 @@ export default function Navbar() {
         } ${
           isScrolled
             ? "bg-black/80 backdrop-blur-lg shadow-[0_4px_15px_rgba(0,0,0,0.4)]"
-            : "top-8 bg-gradient-to-r from-[#f6d66b85] via-[#fac53f85] to-[#ffee85] backdrop-blur-lg shadow-[0_4px_15px_rgba(255,215,0,0.4)]"
+            : "bg-gradient-to-r from-[#f6d66b85] via-[#fac53f85] to-[#ffee85] backdrop-blur-lg shadow-[0_4px_15px_rgba(255,215,0,0.4)]"
         }`}
       >
         <div className="h-8 max-w-7xl mx-auto px-6 flex items-center justify-between">
@@ -121,9 +110,7 @@ export default function Navbar() {
               <a
                 key={index}
                 href={`#${item}`}
-                className={`bg-clip-text text-white relative hover:underline hover:underline-offset-4 transition-all duration-300 ${
-                  activeSection === item ? "underline underline-offset-4" : "" // Highlight active link
-                }`}
+                className="bg-clip-text text-white relative hover:underline hover:underline-offset-4 transition-all duration-300"
               >
                 {t(item)}
               </a>

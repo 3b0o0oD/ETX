@@ -18,6 +18,7 @@ const HeroSection = () => {
 
   return (
     <motion.div
+      id="home"
       className="relative w-screen h-screen overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

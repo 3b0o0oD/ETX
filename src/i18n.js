@@ -17,7 +17,7 @@ i18n
       loadPath:
         process.env.NODE_ENV === "production"
           ? "/ETX/locales/{{lng}}/{{ns}}.json"
-          : "/locales/{{lng}}/{{ns}}.json", // ✅ Ensure this path is correct
+          : "/locales/{{lng}}/{{ns}}.json",
     },
     detection: {
       order: ["localStorage", "cookie", "navigator", "htmlTag", "path"],
