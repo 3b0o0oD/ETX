@@ -31,7 +31,7 @@ export default function HomePage() {
       },
       {
         title: t("smartHomeIntegration"),
-        img: "./Smart-Keypad.jpg",
+        img: "./ipad.jpg",
         description: t("smartHomeDescription"),
       },
       {
@@ -50,7 +50,7 @@ export default function HomePage() {
       },
       {
         title: t("energyManagement"),
-        img: "./CCTV.jpg",
+        img: "./energy-management.png",
         description: t("energyDescription"),
       },
     ]);
