@@ -11,7 +11,7 @@ const HeroSection = lazy(() => import("./components/HeroSection"));
 const Contact = lazy(() => import("./components/Contact"));
 const FeatureCard = lazy(() => import("./components/FeatureCard"));
 const ServicesCard = lazy(() => import("./components/ServicesCard"));
-const OurBrands = lazy(() => import("./components/ourbrands")); // Added OurBrands
+const OurBrands = lazy(() => import("./components/OurBrands")); // Added OurBrands
 const Navbar = lazy(() => import("./components/Navbar")); // Lazy load Navbar
 const Footer = lazy(() => import("./components/Footer")); // Lazy load Footer
 
