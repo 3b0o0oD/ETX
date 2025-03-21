@@ -162,7 +162,7 @@ export default function Navbar() {
           </div>
           <button
             onClick={() => setMenuOpen((prev) => !prev)}
-            className="md:hidden focus:outline-none text-white hover:text-gray-400"
+            className="z-50 md:hidden focus:outline-none text-white hover:text-gray-400"
             aria-label={menuOpen ? "Close Menu" : "Open Menu"}
           >
             {menuOpen ? <X size={28} /> : <Menu size={28} />}

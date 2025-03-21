@@ -1,17 +1,19 @@
 import React, { useEffect, useState, Suspense, lazy } from "react";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import i18n from "./i18n";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import Lenis from "lenis";
 import { ArrowDown } from "lucide-react";
+import { useInView } from "react-intersection-observer";
 
 // Lazy load components
 const HeroSection = lazy(() => import("./components/HeroSection"));
 const Contact = lazy(() => import("./components/Contact"));
 const FeatureCard = lazy(() => import("./components/FeatureCard"));
 const ServicesCard = lazy(() => import("./components/ServicesCard"));
+const OurBrands = lazy(() => import("./components/ourbrands")); // Added OurBrands
+const Navbar = lazy(() => import("./components/Navbar")); // Lazy load Navbar
+const Footer = lazy(() => import("./components/Footer")); // Lazy load Footer
 
 export default function HomePage() {
   const { t, i18n } = useTranslation();
@@ -19,7 +21,11 @@ export default function HomePage() {
   const [features, setFeatures] = useState([]);
   const [services, setServices] = useState([]);
 
-  // Update features & services when language changes
+  const [featuresRef, featuresInView] = useInView({ triggerOnce: true });
+  const [servicesRef, servicesInView] = useInView({ triggerOnce: true });
+  const [brandsRef, brandsInView] = useInView({ triggerOnce: true });
+  const [contactRef, contactInView] = useInView({ triggerOnce: true });
+
   useEffect(() => {
     setFeatures([
       {
@@ -35,7 +41,7 @@ export default function HomePage() {
       },
       {
         title: t("industrialControl"),
-        img: "./Smart-Keypad.jpg",
+        img: "./industrialControl.png",
         description: t("industrialDescription"),
       },
     ]);
@@ -51,6 +57,57 @@ export default function HomePage() {
         title: t("energyManagement"),
         img: "./energy-management.png",
         description: t("energyDescription"),
+        moreContent: t("energyManagementMore"),
+      },
+      {
+        title: t("lightingControl"), // New service
+        img: "./lighting.png", // Replace with appropriate image
+        description: t("lightingControlDescription"), // Add translation
+        relatedBrands: ["Philips Dynalite", "Clipsal", "Legrand MyHome"], // Brands related
+         moreContent: t("lightingControlMore"), // Add translation
+      },
+      {
+        title: t("advancedControlSystems"), // New service
+        img: "./control-system.jpg", // Replace with appropriate image
+        description: t("advancedControlDescription"), // Add translation
+        relatedBrands: ["AMX", "Global Cache", "DigitalStrom"], // Brands related
+         moreContent: t("advancedControlMore"), // Add translation
+      },
+      {
+        title: t("homeEntertainment"), // New service
+        img: "./home-entertainment.jpg", // Replace with appropriate image
+        description: t("homeEntertainmentDescription"), // Add translation
+        relatedBrands: ["Denon", "Nuvo", "BlueSound"], // Brands related
+         moreContent: t("homeEntertainmentMore"), // Add translation
+      },
+      {
+        title: t("videoSurveillance"), // New service
+        img: "./videoSurveillance.jpg", // Replace with appropriate image
+        description: t("videoSurveillanceDescription"), // Add translation
+        relatedBrands: ["HIKvision", "Tiandy"], // Brands related
+         moreContent: t("videoSurveillanceMore"), // Add translation
+
+      },
+      {
+        title: t("dataStorageSolutions"), // New service
+        img: "./data-storage.jpg", // Replace with appropriate image
+        description: t("dataStorageDescription"), // Add translation
+        relatedBrands: ["Synology"], // Brands related
+         moreContent: t("dataStorageMore"), // Add translation
+      },
+      {
+        title: t("securitySystems"), // New service
+        img: "./security-systems.jpg", // Replace with appropriate image
+        description: t("securitySystemsDescription"), // Add translation
+        relatedBrands: ["Paradox"], // Brands related
+         moreContent: t("securitySystemsMore"), // Add translation
+      },
+      {
+        title: t("doorEntrySystems"), // New service
+        img: "./door-entry.jpg", // Replace with appropriate image
+        description: t("doorEntryDescription"), // Add translation
+        relatedBrands: ["DoorBird"], // Brands related
+         moreContent: t("doorEntryMore"), // Add translation
       },
     ]);
   }, [i18n.language]);
@@ -65,10 +122,9 @@ export default function HomePage() {
 
     requestAnimationFrame(raf);
 
-    // Simulate a delay to ensure all assets are loaded before removing the loading state
     const loadingTimeout = setTimeout(() => {
       setLoading(false);
-    }, 1500); // Adjust the delay as needed
+    }, 1500);
 
     return () => {
       lenis.destroy();
@@ -105,9 +161,11 @@ export default function HomePage() {
         >
           <source src="./g.mp4" type="video/mp4" />
         </motion.video>
-        <Navbar />
+        <Suspense fallback={<div>Loading Navbar...</div>}>
+          <Navbar />
+        </Suspense>
         <main>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>Loading Hero Section...</div>}>
             <HeroSection />
           </Suspense>
           <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
@@ -118,11 +176,10 @@ export default function HomePage() {
           <div>
             {/* Features Section */}
             <motion.section
+              ref={featuresRef}
               id="features"
               className="relative py-20 px-8 md:px-16 text-white text-center"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true }}
             >
               <h2 className="text-3xl md:text-5xl font-bold mb-6">
                 {t("whyChooseUs")}
@@ -134,17 +191,9 @@ export default function HomePage() {
                 {features.map((feature, index) => (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.8,
-                      ease: "easeOut",
-                      delay: index * 0.2, // Staggered delay for each item
-                    }}
-                    whileHover={{ scale: 1.05, backgroundColor: "#333" }}
                     className="p-6 bg-gray-800 rounded-lg shadow-md transition-all duration-300"
                   >
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<div>Loading Feature...</div>}>
                       <FeatureCard {...feature} />
                     </Suspense>
                   </motion.div>
@@ -154,11 +203,10 @@ export default function HomePage() {
 
             {/* Services Section */}
             <motion.section
+              ref={servicesRef}
               id="services"
               className="relative py-20 px-8 md:px-16 text-white text-center"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true }}
             >
               <h2 className="text-3xl md:text-5xl font-bold mb-6">
                 {t("ourServices")}
@@ -170,39 +218,44 @@ export default function HomePage() {
                 {services.map((service, index) => (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.6,
-                      ease: "easeOut",
-                      delay: index * 0.2, // Staggered delay for each item
-                    }}
-                    whileHover={{ scale: 1.05, backgroundColor: "#333" }}
                     className="p-6 bg-gray-800 rounded-lg shadow-md transition-all duration-300"
                   >
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<div>Loading Service...</div>}>
                       <ServicesCard {...service} />
                     </Suspense>
                   </motion.div>
                 ))}
               </div>
             </motion.section>
+
+            {/* Our Brands Section */}
+            <motion.section
+              ref={brandsRef}
+              id="ourBrands"
+              className="relative py-20 px-8 md:px-16 text-white text-center"
+              viewport={{ once: true }}
+            >
+              <Suspense fallback={<div>Loading Brands...</div>}>
+                <OurBrands />
+              </Suspense>
+            </motion.section>
           </div>
+
           {/* Contact Section */}
           <motion.section
+            ref={contactRef}
             id="contactUs"
-            className="z-10 relative flex flex-col items-center justify-center py-20 px-8 md:px-16 text-white text-center"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="z-10  relative flex flex-col items-center justify-center py-20 px-8 md:px-16 text-white text-center"
             viewport={{ once: true }}
           >
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div>Loading Contact...</div>}>
               <Contact />
             </Suspense>
           </motion.section>
         </main>
-        <Footer />
+        <Suspense fallback={<div>Loading Footer...</div>}>
+          <Footer />
+        </Suspense>
       </div>
     </I18nextProvider>
   );

@@ -1,9 +1,28 @@
-import React from "react";
-// import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
-const FeatureCard = ({ title, img, description, moreContent }) => {
+const FeatureCard = ({ title, img, description, moreContent, index }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "0px 0px -50px 0px" });
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.2, duration: 0.5 },
+    }),
+  };
+
   return (
-    <div className="p-6 rounded-lg shadow-md">
+    <motion.div
+      ref={ref}
+      className="p-6 rounded-lg shadow-md"
+      variants={cardVariants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      custom={index}
+    >
       <img
         src={img}
         alt={title}
@@ -20,7 +39,7 @@ const FeatureCard = ({ title, img, description, moreContent }) => {
           Read More
         </motion.button>
       )} */}
-    </div>
+    </motion.div>
   );
 };
 
