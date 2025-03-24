@@ -70,12 +70,12 @@ const BrandCard = ({ brand, flipped, onClick }) => {
 
   return (
     <motion.div
-      className="relative max-w-48 mt-8 max-h-32 cursor-pointer perspective md:w-64 md:h-40 lg:w-72 lg:h-48 hover:scale-105 transition-transform duration-300"
+      className="relative w-36 h-24 sm:w-48 sm:h-32 md:w-48 md:h-32 lg:w-52 lg:h-34 cursor-pointer perspective hover:scale-105 transition-transform duration-300"
       onClick={onClick} // Handle click event
     >
       <motion.div
-  className="w-full h-full rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
-  animate={{ rotateY: flipped ? 180 : 0 }}
+        className="w-full h-full rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+        animate={{ rotateY: flipped ? 180 : 0 }}
         transition={{ duration: 0.6 }}
         style={{ transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}
       >
@@ -161,11 +161,11 @@ export default function OurBrands() {
   }, [invert]);
 
   return (
-    <div className="flex flex-col items-center p-6 bg-gradient-to-b from-black-100 to-black-800">
-      <h2 className="text-center text-5xl font-bold mb-6">
+    <div className="flex flex-col items-center p-4 sm:p-6 md:p-8 bg-gradient-to-b from-black-100 to-black-800">
+      <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold mb-18">
         {t("ourBrandsTitle")}
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center items-center">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 justify-center items-center">
         {brands.map((brand, index) => (
           <BrandCard
             key={index}
