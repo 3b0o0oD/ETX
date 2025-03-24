@@ -1,5 +1,5 @@
-import { motion, useInView } from "framer-motion";
-import { useState, useRef } from "react";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const brands = [
@@ -65,19 +65,17 @@ const brands = [
   },
 ];
 
-const BrandCard = ({ brand }) => {
-  const [flipped, setFlipped] = useState(false);
+const BrandCard = ({ brand, flipped, onClick }) => {
   const { t } = useTranslation();
 
   return (
     <motion.div
-      className="relative w-64 h-40 cursor-pointer perspective md:w-80 md:h-52 lg:w-96 lg:h-48"
-      onClick={() => setFlipped(!flipped)}
+      className="relative max-w-48 mt-8 max-h-32 cursor-pointer perspective md:w-64 md:h-40 lg:w-72 lg:h-48 hover:scale-105 transition-transform duration-300"
+      onClick={onClick} // Handle click event
     >
       <motion.div
-        className="w-full h-full rounded-2xl shadow-lg absolute"
-        initial={false}
-        animate={{ rotateY: flipped ? 180 : 0 }}
+  className="w-full h-full rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+  animate={{ rotateY: flipped ? 180 : 0 }}
         transition={{ duration: 0.6 }}
         style={{ transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}
       >
@@ -89,7 +87,7 @@ const BrandCard = ({ brand }) => {
           <img
             src={brand.logo}
             alt={brand.name}
-            className="h-16 max-w-full max-h-full object-contain md:h-20 lg:h-24"
+            className="h-12 max-w-full max-h-full object-contain md:h-16 lg:h-20"
             onError={(e) => {
               e.target.src =
                 "https://www.svgrepo.com/show/508699/landscape-placeholder.svg";
@@ -106,7 +104,7 @@ const BrandCard = ({ brand }) => {
             backfaceVisibility: "hidden",
           }}
         >
-          <p className="text-center">
+          <p className="text-center text-sm md:text-base">
             {t(brand.descriptionKey) || t("descriptionNotAvailable")}
           </p>
         </div>
@@ -116,29 +114,65 @@ const BrandCard = ({ brand }) => {
 };
 
 export default function OurBrands() {
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true });
   const { t } = useTranslation();
 
+  const [flippedStates, setFlippedStates] = useState(
+    Array(brands.length).fill(false)
+  );
+  const [invert, setInvert] = useState(false);
+
+  const handleCardClick = (index) => {
+    setFlippedStates((prev) => {
+      const newStates = [...prev];
+      newStates[index] = !newStates[index]; // Toggle the flipped state
+      return newStates;
+    });
+  };
+
+  useEffect(() => {
+    const sequence = [
+      [true, false, false, true],
+      [false, true, true, false],
+      [true, false, false, true],
+    ]; // Define the flipping sequence
+    let currentStep = 3;
+
+    const interval = setInterval(() => {
+      setFlippedStates((prev) => {
+        const newStates = [...prev];
+        const row = Math.floor(currentStep / 4); // Calculate row index
+        const col = currentStep % 4; // Calculate column index
+        const shouldFlip = invert
+          ? !sequence[row][col] // Invert the pattern
+          : sequence[row][col]; // Normal pattern
+        newStates[row * 4 + col] = shouldFlip; // Update the specific card
+        return newStates;
+      });
+
+      currentStep++;
+
+      if (currentStep >= brands.length) {
+        currentStep = 0; // Reset to the first card
+        setInvert((prev) => !prev); // Toggle the inversion
+      }
+    }, 3600); // Flip one card every 300ms
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [invert]);
+
   return (
-    <div
-      ref={sectionRef}
-      className="flex flex-col items-center p-6"
-    >
+    <div className="flex flex-col items-center p-6 bg-gradient-to-b from-black-100 to-black-800">
       <h2 className="text-center text-5xl font-bold mb-6">
         {t("ourBrandsTitle")}
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center items-center">
         {brands.map((brand, index) => (
-          <motion.div
+          <BrandCard
             key={index}
-            initial={{ opacity: 0, rotateY: -90 }}
-            animate={isInView ? { opacity: 1, rotateY: 0 } : {}}
-            transition={{ duration: 0.6, delay: index * 0.2 }}
-            className="mx-auto"
-          >
-            <BrandCard brand={brand} />
-          </motion.div>
+            brand={brand}
+            flipped={flippedStates[index]}
+            onClick={() => handleCardClick(index)} // Pass the click handler
+          />
         ))}
       </div>
     </div>

@@ -69,7 +69,7 @@
   "securitySystems": "Security Systems",
   "securitySystemsDescription": "Comprehensive security solutions for homes and businesses.",
   "securitySystemsMore": "Reliable and advanced security systems including intrusion detection and access control.",
-  "doorEntrySystems": "Door Entry Systems",
-  "doorEntrySystemsDescription": "Smart door entry solutions with video and intercom capabilities.",
-  "doorEntrySystemsMore": "Modern door entry systems for enhanced security and convenience."
+  "AccessControlSystems": "Access Control Solutions",
+  "AccessControlDescription": "Access Control solutions with video and intercom capabilities.",
+  "AccessControlMore": "Modern Access Control systems for enhanced security and convenience."
 }

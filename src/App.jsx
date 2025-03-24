@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense, lazy } from "react";
+import React, { useEffect, useState, Suspense, lazy, useLayoutEffect } from "react";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import i18n from "./i18n";
 import { motion } from "framer-motion";
@@ -11,9 +11,9 @@ const HeroSection = lazy(() => import("./components/HeroSection"));
 const Contact = lazy(() => import("./components/Contact"));
 const FeatureCard = lazy(() => import("./components/FeatureCard"));
 const ServicesCard = lazy(() => import("./components/ServicesCard"));
-const OurBrands = lazy(() => import("./components/OurBrands")); // Added OurBrands
-const Navbar = lazy(() => import("./components/Navbar")); // Lazy load Navbar
-const Footer = lazy(() => import("./components/Footer")); // Lazy load Footer
+const OurBrands = lazy(() => import("./components/OurBrands"));
+const Navbar = lazy(() => import("./components/Navbar"));
+const Footer = lazy(() => import("./components/Footer"));
 
 export default function HomePage() {
   const { t, i18n } = useTranslation();
@@ -26,6 +26,34 @@ export default function HomePage() {
   const [brandsRef, brandsInView] = useInView({ triggerOnce: true });
   const [contactRef, contactInView] = useInView({ triggerOnce: true });
 
+  // Smooth scrolling with Lenis
+  useLayoutEffect(() => {
+    const lenis = new Lenis();
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+
+  // Simulate loading state
+  useEffect(() => {
+    const loadingTimeout = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+
+    return () => {
+      clearTimeout(loadingTimeout);
+    };
+  }, []);
+
+  // Set features and services data
   useEffect(() => {
     setFeatures([
       {
@@ -60,77 +88,56 @@ export default function HomePage() {
         moreContent: t("energyManagementMore"),
       },
       {
-        title: t("lightingControl"), // New service
-        img: "./lighting.png", // Replace with appropriate image
-        description: t("lightingControlDescription"), // Add translation
-        relatedBrands: ["Philips Dynalite", "Clipsal", "Legrand MyHome"], // Brands related
-         moreContent: t("lightingControlMore"), // Add translation
+        title: t("lightingControl"),
+        img: "./lighting.png",
+        description: t("lightingControlDescription"),
+        relatedBrands: ["Philips Dynalite", "Clipsal", "Legrand MyHome"],
+        moreContent: t("lightingControlMore"),
       },
       {
-        title: t("advancedControlSystems"), // New service
-        img: "./control-system.jpg", // Replace with appropriate image
-        description: t("advancedControlDescription"), // Add translation
-        relatedBrands: ["AMX", "Global Cache", "DigitalStrom"], // Brands related
-         moreContent: t("advancedControlMore"), // Add translation
+        title: t("advancedControlSystems"),
+        img: "./control-system.jpg",
+        description: t("advancedControlDescription"),
+        relatedBrands: ["AMX", "Global Cache", "DigitalStrom"],
+        moreContent: t("advancedControlMore"),
       },
       {
-        title: t("homeEntertainment"), // New service
-        img: "./home-entertainment.jpg", // Replace with appropriate image
-        description: t("homeEntertainmentDescription"), // Add translation
-        relatedBrands: ["Denon", "Nuvo", "BlueSound"], // Brands related
-         moreContent: t("homeEntertainmentMore"), // Add translation
+        title: t("homeEntertainment"),
+        img: "./home-entertainment.jpg",
+        description: t("homeEntertainmentDescription"),
+        relatedBrands: ["Denon", "Nuvo", "BlueSound"],
+        moreContent: t("homeEntertainmentMore"),
       },
       {
-        title: t("videoSurveillance"), // New service
-        img: "./videoSurveillance.jpg", // Replace with appropriate image
-        description: t("videoSurveillanceDescription"), // Add translation
-        relatedBrands: ["HIKvision", "Tiandy"], // Brands related
-         moreContent: t("videoSurveillanceMore"), // Add translation
-
+        title: t("videoSurveillance"),
+        img: "./videoSurveillance.jpg",
+        description: t("videoSurveillanceDescription"),
+        relatedBrands: ["HIKvision", "Tiandy"],
+        moreContent: t("videoSurveillanceMore"),
       },
       {
-        title: t("dataStorageSolutions"), // New service
-        img: "./data-storage.jpg", // Replace with appropriate image
-        description: t("dataStorageDescription"), // Add translation
-        relatedBrands: ["Synology"], // Brands related
-         moreContent: t("dataStorageMore"), // Add translation
+        title: t("dataStorageSolutions"),
+        img: "./data-storage.jpg",
+        description: t("dataStorageDescription"),
+        relatedBrands: ["Synology"],
+        moreContent: t("dataStorageMore"),
       },
       {
-        title: t("securitySystems"), // New service
-        img: "./security-systems.jpg", // Replace with appropriate image
-        description: t("securitySystemsDescription"), // Add translation
-        relatedBrands: ["Paradox"], // Brands related
-         moreContent: t("securitySystemsMore"), // Add translation
+        title: t("securitySystems"),
+        img: "./security-systems.jpg",
+        description: t("securitySystemsDescription"),
+        relatedBrands: ["Paradox"],
+        moreContent: t("securitySystemsMore"),
       },
       {
-        title: t("doorEntrySystems"), // New service
-        img: "./door-entry.jpg", // Replace with appropriate image
-        description: t("doorEntryDescription"), // Add translation
-        relatedBrands: ["DoorBird"], // Brands related
-         moreContent: t("doorEntryMore"), // Add translation
+        title: t("AccessControlSystems"),
+        img: "./door-entry.jpg",
+        description: t("AccessControlDescription"),
+        relatedBrands: ["DoorBird"],
+        moreContent: t("AccessControlMore"),
       },
     ]);
   }, [i18n.language]);
-
-  useEffect(() => {
-    const lenis = new Lenis();
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    const loadingTimeout = setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-
-    return () => {
-      lenis.destroy();
-      clearTimeout(loadingTimeout);
-    };
-  }, []);
 
   if (loading) {
     return (
@@ -187,17 +194,10 @@ export default function HomePage() {
               <p className="text-lg md:text-xl opacity-75 mb-10 max-w-3xl mx-auto">
                 {t("weProvide")}
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {features.map((feature, index) => (
-                  <motion.div
-                    key={index}
-                    className="p-6 bg-gray-800 rounded-lg shadow-md transition-all duration-300"
-                  >
-                    <Suspense fallback={<div>Loading Feature...</div>}>
-                      <FeatureCard {...feature} />
-                    </Suspense>
-                  </motion.div>
-                ))}
+              <div className="grid grid-cols-1">
+                <Suspense fallback={<div>Loading Feature...</div>}>
+                  <FeatureCard features={features} />
+                </Suspense>
               </div>
             </motion.section>
 
@@ -245,7 +245,7 @@ export default function HomePage() {
           <motion.section
             ref={contactRef}
             id="contactUs"
-            className="z-10  relative flex flex-col items-center justify-center py-20 px-8 md:px-16 text-white text-center"
+            className="z-10 relative flex flex-col items-center justify-center py-20 px-8 md:px-16 text-white text-center"
             viewport={{ once: true }}
           >
             <Suspense fallback={<div>Loading Contact...</div>}>
