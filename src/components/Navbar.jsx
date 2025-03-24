@@ -110,15 +110,19 @@ export default function Navbar() {
               <a
                 key={index}
                 href={`#${item}`}
-                className="bg-clip-text text-white relative hover:underline hover:underline-offset-4 transition-all duration-300"
+                className="relative text-white hover:text-gray-300 transition-all duration-300 after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:origin-left after:transition-transform after:duration-300"
               >
                 {t(item)}
               </a>
             ))}
           </div>
-          <div ref={languageDropdownRef} className="relative">
+          <div
+            ref={languageDropdownRef}
+            className="relative"
+            onMouseEnter={() => setIsLanguageDropdownOpen(true)}
+            onMouseLeave={() => setIsLanguageDropdownOpen(false)}
+          >
             <button
-              onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
               className="flex items-center gap-1 focus:outline-none"
               aria-label="Toggle Language Dropdown"
             >
